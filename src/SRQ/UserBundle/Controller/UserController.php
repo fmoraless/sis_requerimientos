@@ -1,11 +1,10 @@
 <?php
 
 namespace SRQ\UserBundle\Controller;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Form\FormError;
 use SRQ\UserBundle\Entity\User;
 use SRQ\UserBundle\Form\UserType;
 
@@ -62,34 +61,19 @@ class UserController extends Controller
         {
             $password = $form->get('password')->getData();
             
-            $passwordConstraint = new Assert\NotBlank();
-            $errorList = $this->get('validator')->validate($password, $passwordConstraint);
+            $encoder = $this->container->get('security.password_encoder');
+            $encoded = $encoder->encodePassword($user, $password);
             
-            if(count($errorList) == 0)
-            {
-                $encoder = $this->container->get('security.password_encoder');
-                $encoded = $encoder->encodePassword($user, $password);
+            $user->setPassword($encoded);
             
-                $user->setPassword($encoded);
+            $fm = $this->getDoctrine()->getManager();
+            $fm->persist($user);
+            $fm->flush();
             
-                $fm = $this->getDoctrine()->getManager();
-                $fm->persist($user);
-                $fm->flush();
-            
-                $successMessage = $this->get('translator')->trans('The user has been created.');
-                $this->addFlash('mensaje', $successMessage);
-            
-                return $this->redirectToRoute('srq_user_index');
-            }
-            else
-            {
-                $errorMessage = new FormError($errorList[0]->getMessage());
-                $form->get('password')->addError($errorMessage);   
-            }
+            return $this->redirectToRoute('srq_user_index');
         }
         
-        return $this->render('SRQUserBundle:User:add.html.twig', array('form' =>$form->createView()));
-        
+        return $this->render('SRQUserBundle:User:add.html.twig', array('form' =>createView()));
     }
     
     public function viewAction($id)
