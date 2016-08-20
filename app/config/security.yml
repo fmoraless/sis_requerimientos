@@ -4,10 +4,10 @@ security:
 
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory:
-            memory: ~
-
+            in_memory:
+                memory: ~
     firewalls:
+     
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -22,13 +22,8 @@ security:
 
             # form_login: ~
             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
-   
-   #encoders:
-    #    SRQ\UserBundle\Entity\User:
-     #       algorithm: bcrypt
-      #      cost: 12
-   #encoders:
-    #    Symfony\Component\Security\Core\User\User:
-     #   SRQ\UserBundle\Entity\User:
-      #      algorithm: bcrypt
-       #    cost: 12
+
+    encoders:
+        SRQ\UserBundle\Entity\User:
+            algorithm: bcrypt
+            cost: 12
