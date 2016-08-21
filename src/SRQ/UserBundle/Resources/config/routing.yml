@@ -11,6 +11,8 @@ srq_user_add:
     path:     /user/add
     defaults: { _controller: SRQUserBundle:User:add }
 
+
+
 srq_user_create:
     path:     /user/create
     defaults: { _controller: SRQUserBundle:User:create }
@@ -22,6 +24,11 @@ srq_user_edit:
     path:     /user/edit/{id}
     defaults: { _controller: SRQUserBundle:User:edit }
     
+srq_user_update:
+    path:     /user/update/{id}
+    defaults: { _controller: SRQUserBundle:User:update }
+    methods: [POST, PUT]
+    
 srq_user_view:
     path:     /user/view/{id}
     defaults: { _controller: SRQUserBundle:User:view }
@@ -29,3 +36,10 @@ srq_user_view:
 srq_user_delete:
     path:     /user/delete/{id}
     defaults: { _controller: SRQUserBundle:User:delete }
+
+srq_user_redirect_edit:
+    path:     /user/update/{id}
+    defaults:
+        _controller: SRQUserBundle:User:edit
+        path: /user/edit/{id}
+        permanent: true
