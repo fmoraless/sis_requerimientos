@@ -119,7 +119,7 @@ class UserController extends Controller
         
         $user = $fm->getRepository('SRQUserBundle:User')->find($id);
         
-         if(!$user)    
+        if(!$user)    
         {
             $messageException = $this->get('translator')->trans('User not found.');
             throw $this->createNotFoundException('$messageException');
@@ -177,6 +177,50 @@ class UserController extends Controller
         
         $user = $repository->find($id);
         
-        return new Response('Usuario: ' . $user->getUsername() . ' con email: ' . $user->getEmail());
+        if(!$user)    
+        {
+            $messageException = $this->get('translator')->trans('User not found.');
+            throw $this->createNotFoundException('$messageException');
+        }
+        
+        $deleteForm = $this->createDeleteForm($user);
+        
+        return $this->render('SRQUserBundle:User:view.html.twig', array('user' => $user, 'delete_form' => $deleteForm->createView()));
+    }
+    
+    private function createDeleteForm($user)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('srq_user_delete', array('id' => $user->getId())))
+            ->setMethod('DELETE')
+            ->getForm();
+            
+    }
+    
+    public function deleteAction(Request $request, $id)
+    {
+        $fm = $this->getDoctrine()->getManager();
+        
+        $user = $fm->getRepository('SRQUserBundle:User')->find($id);
+        
+        if(!$user)    
+        {
+            $messageException = $this->get('translator')->trans('User not found.');
+            throw $this->createNotFoundException('$messageException');
+        }
+        
+        $form = $this->createDeleteForm($user);
+        $form->handleRequest($request);
+        
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $fm->remove($user);
+            $fm->flush();
+            
+            $successMessage = $this->get('translator')->trans('The user has been deleted.');
+            $this->addFlash('mensaje', $successMessage);
+            return $this->redirectToRoute('srq_user_index');
+        }
+        
     }
 }

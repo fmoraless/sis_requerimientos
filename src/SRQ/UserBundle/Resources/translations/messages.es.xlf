@@ -130,11 +130,38 @@
                 <source>User not found.</source>
                 <target>Usuario no encontrado</target>
             </trans-unit>
-             <trans-unit id="32">
+            <trans-unit id="32">
+                <source>Update user</source>
+                <target>Modificar usuario</target>
+            </trans-unit>
+            <trans-unit id="33">
+                <source>The user has been modified.</source>
+                <target>El usuario ha sido modificado.</target>
+            </trans-unit>
+            <trans-unit id="34">
                 <source>Edit user</source>
                 <target>Editar usuario</target>
             </trans-unit>
-            
+            <trans-unit id="35">
+                <source>Disabled</source>
+                <target>Deshabilitado</target>
+            </trans-unit>
+            <trans-unit id="36">
+                <source>Enabled</source>
+                <target>Habilitado</target>
+            </trans-unit>
+            <trans-unit id="37">
+                <source>Delete user</source>
+                <target>Eliminar usuario</target>
+            </trans-unit>
+            <trans-unit id="38">
+                <source>The user has been deleted.</source>
+                <target>El usuario ha sido eliminado.</target>
+            </trans-unit>
+            <trans-unit id="39">
+                <source>Are you sure ?</source>
+                <target>¿Estás seguro?</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

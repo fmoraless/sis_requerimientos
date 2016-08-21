@@ -36,6 +36,7 @@ srq_user_view:
 srq_user_delete:
     path:     /user/delete/{id}
     defaults: { _controller: SRQUserBundle:User:delete }
+    methods: [POST, DELETE]
 
 srq_user_redirect_edit:
     path:     /user/update/{id}
