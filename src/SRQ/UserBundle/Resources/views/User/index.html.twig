@@ -21,6 +21,13 @@
 			<div class="table-responsive">
 				{% trans %} Total records: {% endtrans %} <span id="total">{{ pagination.getTotalItemCount }}</span> 
 				<p>
+				<form method="get" action="" class="form-inline" role="search">
+					<div class="form-group">
+						<input type="text" name="query" value="{{ app.request.get('query') }}" class="form-control" placeholder="{{'Search user'|trans}}" required />
+					</div>
+					<input type="submit" value="{{ 'Search'|trans }}" class="btn btn-default">
+				</form>
+				<br>
 				<table class="table table-striped table-hover">
 					<thead>
 						<tr>
