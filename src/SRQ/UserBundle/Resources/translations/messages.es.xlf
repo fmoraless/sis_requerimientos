@@ -162,6 +162,18 @@
                 <source>Are you sure ?</source>
                 <target>¿Estás seguro?</target>
             </trans-unit>
+            <trans-unit id="40">
+                <source>The user could not be deleted.</source>
+                <target>El usuario no pudo ser eliminado.</target>
+            </trans-unit>
+            <trans-unit id="41">
+                <source>Monitors</source>
+                <target>Monitores</target>
+            </trans-unit>
+            <trans-unit id="42">
+                <source>Manager</source>
+                <target>Gestión</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

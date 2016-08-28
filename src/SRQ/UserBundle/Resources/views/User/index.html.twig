@@ -2,15 +2,24 @@
 
 {% block body %}
     {{ parent() }}
-    {{ include ('SRQUserBundle:User:messages/success.html.twig') }}
     
+    {# Progress bar #}
+	<div class="progress no-border hidden" id="delete-progress">
+		<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+			<span class="sr-only">Loading...</span>
+		</div>
+	</div>
+    
+    
+    {{ include('SRQUserBundle:User:messages/success.html.twig') }}
+    {{ include('SRQUserBundle:User:messages/danger.html.twig') }}
  	<div class="container">
 		<div class="col-md-12">
 			<div class="page-header margin-none">
 				<h2 class="padding-none">{% trans %} Users {% endtrans %}</h2>
 			</div>
 			<div class="table-responsive">
-				{% trans %} Total records: {% endtrans %} {{ pagination.getTotalItemCount }} 
+				{% trans %} Total records: {% endtrans %} <span id="total">{{ pagination.getTotalItemCount }}</span> 
 				<p>
 				<table class="table table-striped table-hover">
 					<thead>
@@ -34,7 +43,7 @@
 					</thead>
 					<tbody>
 				        {% for user in pagination %}
-                            <tr>
+				        	<tr data-id="{{ user.id }}">
                                 <td>{{ user.username }}</td>
                                 <td>{{ user.firstName }}</td>
                                 <td>{{ user.lastName }}</td>
@@ -76,4 +85,14 @@
 			</div>
 		</div>
 	</div>
+
+
+{{ include('SRQUserBundle:User:forms/form.html.twig', { form: delete_form_ajax, message: 'Are you sure ?'|trans, id: 'form-delete', with_submit: false}) }}
+
 {% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('bundles/srquser/js/delete-user.js') }}"></script>
+{% endblock %}
+
