@@ -11,16 +11,28 @@ use SRQ\UserBundle\Entity\User;
 use SRQ\UserBundle\Form\UserType;
 
 
+
+
 class UserController extends Controller
 {
     public function indexAction(Request $request)
     {
-        $fm = $this->getDoctrine()->getManager();
-        $dql = "SELECT u FROM SRQUserBundle:User u ORDER BY u.id DESC";
-        $users = $fm->createQuery($dql);
+        $searchQuery = $request->get('query');
         
-        $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate(
+        if(!empty($searchQuery))
+        {
+            $finder = $this->container->get('fos_elastica.finder.app.user');
+            $users = $finder->createPaginatorAdapter($searchQuery);
+        }
+        else
+        {
+            $fm = $this->getDoctrine()->getManager();
+            $dql = "SELECT u FROM SRQUserBundle:User u ORDER BY u.id DESC";
+            $users = $fm->createQuery($dql); 
+        }
+        
+            $paginator = $this->get('knp_paginator');
+            $pagination = $paginator->paginate(
             $users, $request->query->getInt('page', 1),
             5
         );
