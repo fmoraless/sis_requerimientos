@@ -1,46 +1,7 @@
-srq_user_homepage:
-    path:     /
-    defaults: { _controller: SRQUserBundle:Default:index }
-    
-srq_user_index:
-    path:     /user/index
-    defaults: { _controller: SRQUserBundle:User:index }
+srq_user_user:
+    resource: "@SRQUserBundle/Resources/config/routes/user.yml"
+    prefix:   /user
 
-
-srq_user_add:
-    path:     /user/add
-    defaults: { _controller: SRQUserBundle:User:add }
-
-
-
-srq_user_create:
-    path:     /user/create
-    defaults: { _controller: SRQUserBundle:User:create }
-    methods: POST
-
-    
-    
-srq_user_edit:
-    path:     /user/edit/{id}
-    defaults: { _controller: SRQUserBundle:User:edit }
-    
-srq_user_update:
-    path:     /user/update/{id}
-    defaults: { _controller: SRQUserBundle:User:update }
-    methods: [POST, PUT]
-    
-srq_user_view:
-    path:     /user/view/{id}
-    defaults: { _controller: SRQUserBundle:User:view }
-    
-srq_user_delete:
-    path:     /user/delete/{id}
-    defaults: { _controller: SRQUserBundle:User:delete }
-    methods: [POST, DELETE]
-
-srq_user_redirect_edit:
-    path:     /user/update/{id}
-    defaults:
-        _controller: SRQUserBundle:User:edit
-        path: /user/edit/{id}
-        permanent: true
+srq_task_task:
+    resource: "@SRQUserBundle/Resources/config/routes/task.yml"
+    prefix:   /task

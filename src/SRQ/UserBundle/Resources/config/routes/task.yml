@@ -1,0 +1,53 @@
+srq_task_index:
+    path:     /index
+    defaults: { _controller: SRQUserBundle:Task:index }
+
+srq_task_add:
+    path:     /add
+    defaults: { _controller: SRQUserBundle:Task:add }
+
+srq_task_create:
+    path:     /create
+    defaults: { _controller: SRQUserBundle:Task:create }
+    methods:  POST
+
+srq_task_edit:
+    path:     /edit/{id}
+    defaults: { _controller: SRQUserBundle:Task:edit }
+
+srq_task_update:
+    path:     /update/{id}
+    defaults: { _controller: SRQUserBundle:Task:update }
+    methods:  [POST, PUT]
+
+srq_task_view:
+    path:     /view/{id}
+    defaults: { _controller: SRQUserBundle:Task:view }
+
+srq_task_delete:
+    path:     /delete/{id}
+    defaults: { _controller: SRQUserBundle:Task:delete }
+    methods:  [POST, DELETE]
+
+srq_task_redirect_add:
+    path: /create
+    defaults:
+        _controller: SRQUserBundle:Task:add
+        path: /add
+        permanent: true
+
+srq_task_custom:
+    path:     /custom
+    defaults: { _controller: SRQUserBundle:Task:custom }
+    
+srq_task_process:
+    path:     /process/{id}
+    defaults: { _controller: SRQUserBundle:Task:process }
+    methods:  [POST, PUT]    
+
+srq_task_redirect_edit:
+    path: /update/{id}
+    defaults:
+        _controller: SRQUserBundle:Task:edit
+        path: /edit/{id}
+        permanent: true
