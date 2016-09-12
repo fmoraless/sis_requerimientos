@@ -4,7 +4,8 @@ namespace SRQ\UserBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+
 use Doctrine\ORM\EntityRepository;
 
 
@@ -18,7 +19,7 @@ class TaskType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('descripcion')
+            ->add('description')
             ->add('user', 'entity', array(
                 'class' => 'SRQUserBundle:User',
                 'query_builder' => function (EntityRepository $er) {
@@ -26,16 +27,16 @@ class TaskType extends AbstractType
                             ->where('u.role = :only')
                             ->setParameter('only', 'ROLE_USER');
                     },
-                    'choise_label' => 'getFullName'
+                    'choice_label' => 'getFullName'
                 ))
             ->add('save', 'submit', array('label' => 'Save Task'))
         ;
     }
     
     /**
-     * @param OptionsResolver $resolver
+     * @param OptionsResolverInterface $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => 'SRQ\UserBundle\Entity\Task'
@@ -47,6 +48,6 @@ class TaskType extends AbstractType
      */
      public function getName()
      {
-         return 'srq_userbundle_task';
+         return 'task';
      }
 }

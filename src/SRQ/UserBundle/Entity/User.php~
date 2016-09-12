@@ -7,19 +7,21 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
 
 /**
  * User
  *
  * @ORM\Table(name="users")
- * @ORM\Entity(repositoryClass="SRQ\UserBundle\Repository\UserRepository")
+ * @ORM\Entity(repositoryClass="SRQ\UserBundle\Entity\UserRepository")
  * @UniqueEntity("username"){
      message="Este usuario ya existe en la base de datos."
  }
  * @UniqueEntity("email")
  * @ORM\HasLifecycleCallbacks()
  */
+ 
 class User implements UserInterface
 {
     /**
@@ -28,7 +30,7 @@ class User implements UserInterface
     protected $tasks;
     
     /**
-     * @var int
+     * @var integer
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -79,14 +81,14 @@ class User implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="role", type="string", columnDefinition="ENUM('ROLE_ADMIN', 'ROLE_USER')",length=50)
+     * @ORM\Column(name="role", type="string", columnDefinition="ENUM('ROLE_ADMIN', 'ROLE_USER')", length=50)
      * @Assert\NotBlank()
      * @Assert\Choice(choices = {"ROLE_ADMIN", "ROLE_USER"})
      */
     private $role;
 
     /**
-     * @var bool
+     * @var boolean
      *
      * @ORM\Column(name="is_active", type="boolean")
      */
@@ -109,7 +111,8 @@ class User implements UserInterface
     
     public function __construct()
     {
-        $this->sucursales = new ArrayCollection();
+        $this->tasks = new ArrayCollection();
+        $this->isActive = true;
     }
 
 
@@ -361,26 +364,43 @@ class User implements UserInterface
         
     }
 
+
     /**
-     * Set user
+     * Add tasks
      *
-     * @param \SRQ\UserBundle\Entity\Sucursal $user
+     * @param \SRQ\UserBundle\Entity\Task $tasks
      * @return User
      */
-    public function setUser(\SRQ\UserBundle\Entity\Sucursal $user = null)
+    public function addTask(\SRQ\UserBundle\Entity\Task $tasks)
     {
-        $this->user = $user;
+        $this->tasks[] = $tasks;
 
         return $this;
     }
-
-    /**
-     * Get user
+    
+     /**
+     * Remove tasks
      *
-     * @return \SRQ\UserBundle\Entity\Sucursal 
+     * @param \SRQ\UserBundle\Entity\Task $tasks
      */
-    public function getUser()
+    public function removeTask(\SRQ\UserBundle\Entity\Task $tasks)
     {
-        return $this->user;
+        $this->tasks->removeElement($tasks);
+    }
+    
+     /**
+     * Get tasks
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTasks()
+    {
+        return $this->tasks;
+    }
+    
+
+    public function getFullName()
+    {
+        return $this->firstName . " " . $this->lastName;
     }
 }

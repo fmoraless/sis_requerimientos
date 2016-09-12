@@ -3,12 +3,14 @@
 namespace SRQ\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Task
  *
  * @ORM\Table(name="tasks")
- * @ORM\Entity(repositoryClass="SRQ\UserBundle\Repository\TaskRepository")
+ * @ORM\Entity(repositoryClass="SRQ\UserBundle\Entity\TaskRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Task
 {
@@ -18,8 +20,9 @@ class Task
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
      */ 
     protected $user;
+    
     /**
-     * @var int
+     * @var integer
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -30,18 +33,20 @@ class Task
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=100)
+     * @Assert\NotBlank()
      */
     private $title;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="descripcion", type="string", length=255)
+     * @ORM\Column(name="description", type="text")
+     * @Assert\NotBlank()
      */
-    private $descripcion;
+    private $description;
 
     /**
-     * @var bool
+     * @var boolean
      *
      * @ORM\Column(name="status", type="boolean")
      */
@@ -96,26 +101,26 @@ class Task
     }
 
     /**
-     * Set descripcion
+     * Set description
      *
-     * @param string $descripcion
+     * @param string $description
      * @return Task
      */
-    public function setDescripcion($descripcion)
+    public function setDescription($description)
     {
-        $this->descripcion = $descripcion;
+        $this->description = $description;
 
         return $this;
     }
 
     /**
-     * Get descripcion
+     * Get description
      *
      * @return string 
      */
-    public function getDescripcion()
+    public function getDescription()
     {
-        return $this->descripcion;
+        return $this->description;
     }
 
     /**
@@ -185,5 +190,46 @@ class Task
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+    
+    /**
+    * @ORM\PrePersist
+    */
+    public function setCreatedAtValue()
+    {
+        $this->createdAt = new \DateTime();
+    }
+    
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue()
+    {
+        $this->updatedAt = new \DateTime();
+    }
+    
+    /**
+     * Set user
+     *
+     * @param \SRQ\UserBundle\Entity\User $user
+     * @return Task
+     */
+     public function setUser(\SRQUserBundle\Entity\User $user = null)
+     {
+         $this->user = $user;
+         
+         return $this;
+     }
+     
+     
+    /**
+     * Get user
+     *
+     * @return \SRQ\UserBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }
