@@ -186,8 +186,30 @@
                 <source>No search results</source>
                 <target>No se encontraron registros</target>
             </trans-unit>
-            
-            
+            <trans-unit id="46">
+                <source>New task</source>
+                <target>Nueva Tarea</target>
+            </trans-unit>
+            <trans-unit id="47">
+                <source>Title</source>
+                <target>Título</target>
+            </trans-unit>
+            <trans-unit id="48">
+                <source>Description</source>
+                <target>Descripción</target>
+            </trans-unit>
+            <trans-unit id="49">
+                <source>Task description</source>
+                <target>Descripción tarea</target>
+            </trans-unit>
+            <trans-unit id="50">
+                <source>Task title</source>
+                <target>Título tarea</target>
+            </trans-unit>
+            <trans-unit id="51">
+                <source>Create task</source>
+                <target>Crear tarea</target>
+            </trans-unit>
             
         </body>
     </file>
