@@ -1,7 +1,7 @@
 <?php
 
-namespace SRQ\UserBundle\Entity;
 
+namespace SRQ\UserBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -9,18 +9,20 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
-/**
+ /**
  * User
  *
  * @ORM\Table(name="users")
- * @ORM\Entity(repositoryClass="SRQ\UserBundle\Entity\UserRepository")
+ * @ORM\Entity(repositoryClass="SQR\UserBundle\Entity\UserRepository")
  * @UniqueEntity("username")
  * @UniqueEntity("email")
  * @ORM\HasLifecycleCallbacks()
  */
-class User implements AdvancedUserInterface, \Serializable
+ 
+ 
+ 
+class User implements UserInterface
 {
-    
     /**
      * @ORM\OneToMany(targetEntity="Task", mappedBy="user")
      */ 
@@ -104,12 +106,14 @@ class User implements AdvancedUserInterface, \Serializable
      * @ORM\Column(name="updated_at", type="datetime")
      */
     private $updatedAt;
-
+    
+    
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
         $this->isActive = true;
     }
+
 
     /**
      * Get id
@@ -328,14 +332,13 @@ class User implements AdvancedUserInterface, \Serializable
         return $this->updatedAt;
     }
     
-    /**
+       /**
      * @ORM\PrePersist
      */
     public function setCreatedAtValue()
     {
         $this->createdAt = new \DateTime();
     }
-
     /**
      * @ORM\PrePersist
      * @ORM\PreUpdate
@@ -360,6 +363,7 @@ class User implements AdvancedUserInterface, \Serializable
         
     }
 
+
     /**
      * Add tasks
      *
@@ -372,8 +376,8 @@ class User implements AdvancedUserInterface, \Serializable
 
         return $this;
     }
-
-    /**
+    
+     /**
      * Remove tasks
      *
      * @param \SRQ\UserBundle\Entity\Task $tasks
@@ -382,61 +386,20 @@ class User implements AdvancedUserInterface, \Serializable
     {
         $this->tasks->removeElement($tasks);
     }
-
-    /**
+    
+     /**
      * Get tasks
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getTasks()
     {
         return $this->tasks;
     }
     
+
     public function getFullName()
     {
         return $this->firstName . " " . $this->lastName;
-    }
-    
-    /** @see \Serializable::serialize() */
-    public function serialize()
-    {
-        return serialize(array(
-            $this->id,
-            $this->username,
-            $this->password,
-            $this->isActive
-        ));
-    }
-
-    /** @see \Serializable::unserialize() */
-    public function unserialize($serialized)
-    {
-        list (
-            $this->id,
-            $this->username,
-            $this->password,
-            $this->isActive
-        ) = unserialize($serialized);
-    }   
-    
-    public function isAccountNonExpired()
-    {
-        return true;
-    }
-
-    public function isAccountNonLocked()
-    {
-        return true;
-    }
-
-    public function isCredentialsNonExpired()
-    {
-        return true;
-    }
-
-    public function isEnabled()
-    {
-        return $this->isActive;
     }
 }

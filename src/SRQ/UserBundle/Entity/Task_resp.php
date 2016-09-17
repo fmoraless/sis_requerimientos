@@ -5,6 +5,11 @@ namespace SRQ\UserBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+
+
+
+
+
 /**
  * Task
  *
@@ -14,6 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Task
 {
+    
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="tasks")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
@@ -22,7 +28,6 @@ class Task
     
     /**
      * @var integer
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -191,15 +196,15 @@ class Task
     {
         return $this->updatedAt;
     }
-
+    
     /**
-     * @ORM\PrePersist
-     */
+    * @ORM\PrePersist
+    */
     public function setCreatedAtValue()
     {
         $this->createdAt = new \DateTime();
     }
-
+    
     /**
      * @ORM\PrePersist
      * @ORM\PreUpdate
@@ -208,20 +213,21 @@ class Task
     {
         $this->updatedAt = new \DateTime();
     }
-
+    
     /**
      * Set user
      *
      * @param \SRQ\UserBundle\Entity\User $user
      * @return Task
      */
-    public function setUser(\SRQ\UserBundle\Entity\User $user = null)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
+     public function setUser(\SRQUserBundle\Entity\User $user = null)
+     {
+         $this->user = $user;
+         
+         return $this;
+     }
+     
+     
     /**
      * Get user
      *

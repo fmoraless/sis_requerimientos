@@ -31,6 +31,7 @@ class TaskController extends Controller
                 'action' => $this->generateUrl('srq_task_create'),
                 'method' => 'POST'
             ));
+            
             return $form;
     }
     
@@ -52,5 +53,13 @@ class TaskController extends Controller
         }
         
         return $this->render('SRQUserBundle:Task:add.html.twig', array('form' => $form->createView()));
+    }
+    
+    private function createCustomForm($id, $method, $route)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl($route, array('id' => $id)))
+            ->setMethod($method)
+            ->getForm();
     }
 }
