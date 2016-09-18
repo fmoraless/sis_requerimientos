@@ -39,8 +39,9 @@
 						<tr>
 							<th> {{ knp_pagination_sortable(pagination, 'Username'|trans, 'u
 								.username') }} </th>
-							<th> {{ knp_pagination_sortable(pagination, 'First name'|trans, 'u
-								.firstName') }} </th>
+							
+							<th{% if pagination.isSorted('u.firstName') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'First Name'|trans, 'u
+								.firstName') }}</th>
 							<th> {{ knp_pagination_sortable(pagination, 'Last name'|trans, 'u
 								.lastName') }} </th>
 							<th> {{ knp_pagination_sortable(pagination, 'Email'|trans, 'u

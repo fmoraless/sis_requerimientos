@@ -210,7 +210,22 @@
                 <source>Create task</source>
                 <target>Crear tarea</target>
             </trans-unit>
-            
+            <trans-unit id="52">
+                <source>Tasks</source>
+                <target>Tareas</target>
+            </trans-unit>
+            <trans-unit id="53">
+                <source>Date</source>
+                <target>Fecha</target>
+            </trans-unit>
+            <trans-unit id="54">
+                <source>Status</source>
+                <target>Estado</target>
+            </trans-unit>
+            <trans-unit id="55">
+                <source>Dealers</source>
+                <target>Sucursales</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -12,9 +12,19 @@ use SRQ\UserBundle\Form\TaskType;
 class TaskController extends Controller
 {
     
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        exit('Lista de tareas');
+        $em = $this->getDoctrine()->getManager();
+        $dql = "SELECT t FROM SRQUserBundle:Task t ORDER BY t.id DESC";
+        $tasks = $em->createQuery($dql);
+        
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $tasks,
+            $request->query->getInt('page', 1),
+            5
+        );
+        return $this->render('SRQUserBundle:Task:index.html.twig', array('pagination' => $pagination));
     }
     
     public function addAction()
@@ -62,4 +72,45 @@ class TaskController extends Controller
             ->setMethod($method)
             ->getForm();
     }
+    
+    public function viewAction($id)
+    {
+        $task = $this->getDoctrine()->getRepository('SRQUserBundle:Task')->find($id);
+        if(!$task)            
+        {
+            throw $this->createNotFoundException('The task does not exist.');    
+        }
+        
+        $user = $task->getUser();
+        
+        return $this->render('SRQUserBundle:Task:view.html.twig',array('task' => $task, 'user' => $user));
+    }
+    
+    public function editAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $task = $em->getRepository('SRQUserBundle:Task')->find($id);
+        
+        if(!$task)
+        {
+            throw $this->createNotFoundException('The task not found.');    
+        }
+        
+        $form = $this->createEditForm($task);
+        
+        return $this->render('SRQUserBundle:Task:edit.html.twig', array('task' => $task, 'form' => $form
+              ->createView()));
+    }
+    
+    private function createEditForm(Task $entity)
+    {
+        $form = createForm(new TaskType(), $entity, array(
+            'action' => $this->generateUrl('srq_task_update', array('id' => $entity->getId)),
+            'method' => 'PUT'
+            ));
+            
+            return $form;
+    }
 }
+

@@ -1,0 +1,53 @@
+srq_dealer_index:
+    path:     /index
+    defaults: { _controller: SRQUserBundle:Dealer:index }
+
+srq_dealer_add:
+    path:     /add
+    defaults: { _controller: SRQUserBundle:Dealer:add }
+
+srq_dealer_create:
+    path:     /create
+    defaults: { _controller: SRQUserBundle:sucursal:create }
+    methods:  POST
+
+srq_sucursal_edit:
+    path:     /edit/{id}
+    defaults: { _controller: SRQUserBundle:sucursal:edit }
+
+srq_sucursal_update:
+    path:     /update/{id}
+    defaults: { _controller: SRQUserBundle:sucursal:update }
+    methods:  [POST, PUT]
+
+srq_sucursal_view:
+    path:     /view/{id}
+    defaults: { _controller: SRQUserBundle:sucursal:view }
+
+srq_sucursal_delete:
+    path:     /delete/{id}
+    defaults: { _controller: SRQUserBundle:sucursal:delete }
+    methods:  [POST, DELETE]
+
+srq_sucursal_redirect_add:
+    path: /create
+    defaults:
+        _controller: SRQUserBundle:sucursal:add
+        path: /add
+        permanent: true
+
+srq_sucursal_custom:
+    path:     /custom
+    defaults: { _controller: SRQUserBundle:sucursal:custom }
+    
+srq_sucursal_process:
+    path:     /process/{id}
+    defaults: { _controller: SRQUserBundle:sucursal:process }
+    methods:  [POST, PUT]    
+
+srq_sucursal_redirect_edit:
+    path: /update/{id}
+    defaults:
+        _controller: SRQUserBundle:sucursal:edit
+        path: /edit/{id}
+        permanent: true

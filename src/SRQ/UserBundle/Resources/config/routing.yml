@@ -5,3 +5,9 @@ srq_user_user:
 srq_task_task:
     resource: "@SRQUserBundle/Resources/config/routes/task.yml"
     prefix:   /task
+
+srq_dealer_dealer:
+    resource: "@SRQUserBundle/Resources/config/routes/dealer.yml"
+    prefix:   /dealer
+    
+    
