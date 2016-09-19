@@ -226,6 +226,18 @@
                 <source>Dealers</source>
                 <target>Sucursales</target>
             </trans-unit>
+            <trans-unit id="56">
+                <source>Waiting</source>
+                <target>En espera</target>
+            </trans-unit>
+            <trans-unit id="57">
+                <source>Edit task</source>
+                <target>Editar tarea</target>
+            </trans-unit>
+            <trans-unit id="58">
+                <source>Update task</source>
+                <target>Actualizar tarea</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

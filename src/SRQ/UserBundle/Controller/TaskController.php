@@ -65,14 +65,7 @@ class TaskController extends Controller
         return $this->render('SRQUserBundle:Task:add.html.twig', array('form' => $form->createView()));
     }
     
-    private function createCustomForm($id, $method, $route)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl($route, array('id' => $id)))
-            ->setMethod($method)
-            ->getForm();
-    }
-    
+ 
     public function viewAction($id)
     {
         $task = $this->getDoctrine()->getRepository('SRQUserBundle:Task')->find($id);
@@ -81,9 +74,11 @@ class TaskController extends Controller
             throw $this->createNotFoundException('The task does not exist.');    
         }
         
+        $deleteForm = $this->createCustomForm($task->getId(), 'DELETE', 'srq_task_delete');
         $user = $task->getUser();
         
-        return $this->render('SRQUserBundle:Task:view.html.twig',array('task' => $task, 'user' => $user));
+        return $this->render('SRQUserBundle:Task:view.html.twig',array('task' => $task, 'user' => $user,
+            'delete_form' => $deleteForm->createView()));
     }
     
     public function editAction($id)
@@ -94,7 +89,7 @@ class TaskController extends Controller
         
         if(!$task)
         {
-            throw $this->createNotFoundException('The task not found.');    
+            throw $this->createNotFoundException('The task not found.');
         }
         
         $form = $this->createEditForm($task);
@@ -105,12 +100,69 @@ class TaskController extends Controller
     
     private function createEditForm(Task $entity)
     {
-        $form = createForm(new TaskType(), $entity, array(
-            'action' => $this->generateUrl('srq_task_update', array('id' => $entity->getId)),
+        $form = $this->createForm(new TaskType(), $entity, array(
+            'action' => $this->generateUrl('srq_task_update', array('id' => $entity->getId())),
             'method' => 'PUT'
             ));
             
             return $form;
     }
+    
+    Public function updateAction($id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $task = $em->getRepository('SRQUserBundle:Task')->find($id);
+        
+        if(!$task)
+        {
+            throw $this->createNotFoundException('The task not found.');
+        }
+        $form = $this->createEditForm($task);
+        $form->handleRequest($request);
+        
+        if($form->isSubmitted() and $form->isValid())
+        {
+            $task->setStatus(0);
+            $em->flush();
+            $this->addFlash('mensaje', 'The taks has been modified');
+            return $this->redirectToRoute('srq_task_edit', array('id' => $task->getId()));
+        }
+        return $this->render('SRQUserBundle:Task:edit.html.twig', array('task' => $task, 'form' => $form
+            ->createView()));
+    }
+    
+    public function deleteAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $task = $em->getRepository('SRQUserBundle:Task')->find($id);
+        
+        if(!$task)
+        {
+            throw $this->createNotFoundException('The task not found.');
+        }
+        
+        $form = $this->createCustomForm($task->getId(), 'DELETE', 'srq_task_delete');
+        $form->handleRequest($request);
+        
+        if($form->isSubmitted() and $form->isValid())
+        {
+            $em->remove($task);
+            $em->flush();
+            
+            $this->addFlash('mensaje', 'The Task has been deleted');
+            
+            return $this->redirectToRoute('srq_task_index');
+        }
+    }
+    
+    private function createCustomForm($id, $method, $route)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl($route, array('id' => $id)))
+            ->setMethod($method)
+            ->getForm();
+    }
+    
 }
 
