@@ -10,4 +10,21 @@ srq_dealer_dealer:
     resource: "@SRQUserBundle/Resources/config/routes/dealer.yml"
     prefix:   /dealer
     
+# Autentication
+
+srq_user_homepage:
+    path:     /
+    defaults: { _controller: SRQUserBundle:User:home }
+
+srq_user_login:
+    path:     /login
+    defaults: { _controller: SRQUserBundle:Security:login }
+
+srq_user_login_check:
+    path:     /login_check
+    defaults: { _controller: SRQUserBundle:Security:loginCheck }
+
+srq_user_logout:
+    path:     /logout
+    
     

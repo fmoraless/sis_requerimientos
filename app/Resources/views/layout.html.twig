@@ -12,9 +12,9 @@
     </head>
     <body>
         {% block body %}
-            
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 {{ include('menu.html.twig') }}
-            
+            {% endif %}
         {% endblock %}
         {% block javascripts %}
             <script src="{{ asset('public/js/jquery.min.js') }}"></script>
